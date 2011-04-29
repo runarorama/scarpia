@@ -4,6 +4,7 @@ object CSV {
   import Scalaz._
   import scarpia._
   import scarpia.errors._
+  import Parsers._
 
   val gp = new GenParsers[Char, Unit]
   import gp._

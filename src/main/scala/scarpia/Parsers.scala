@@ -1,7 +1,8 @@
+package scarpia
 import scalaz._
 import Scalaz._
 
-package object scarpia {
+object Parsers {
   import errors._
   import Pos._
 

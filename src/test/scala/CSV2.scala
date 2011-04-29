@@ -3,11 +3,14 @@ import Scalaz._
 import scarpia._
 
 object CSV2 {
-  val parser = new scarpia.GenParsers[Char, Unit]
+  val parser = new GenParsers[Char, Unit]
   import parser._
 
-  val csvFile = line endBy '\n'
+  val cell = (noneOf(",\n") many) map (_.mkString)
   val line = cell sepBy ','
-  val cell = noneOf(",\n") many
+  val csvFile: Parser[Stream[Stream[String]]] = line endBy '\n'
+
+  def parseCSV(input: Stream[Char]) =
+    parse(csvFile, "unknown", input)
 }
 

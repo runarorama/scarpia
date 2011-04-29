@@ -5,6 +5,7 @@ import Scalaz._
 
 import scarpia.errors._
 import Pos._
+import Parsers._
 
 /** A module of pure parsers with input type S and user state U. */
 class Scarpias[S, U] extends ScarpiaTs[S, U, Identity] {

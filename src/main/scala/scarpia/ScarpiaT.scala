@@ -5,6 +5,8 @@ import Pos._
 import scalaz._
 import Scalaz._
 
+import Parsers._
+
 /** The Scarpia parser monad transformer. */
 abstract class ScarpiaT[S, U, M[_], A](implicit m: Monad[M]) {
   val scarpiaModule = new ScarpiaTs[S, U, M]
