@@ -1,0 +1,9 @@
+Scarpia
+=======
+
+Scarpia is a port of the http://legacy.cs.uu.nl/daan/parsec.html[Parsec] parser combinator library to Scala.
+
+Parsec is an industrial-strength parser library. It is simple, safe, well documented, has extensive libraries and good error messages, and is also fast. It is defined as a monad transformer that can be stacked on arbitrary monads, and it is also parametric in the input stream type.
+
+Scarpia is designed to be a faithful port of Parsec, while taking advantage of Scala features such as first-class modules.
+
