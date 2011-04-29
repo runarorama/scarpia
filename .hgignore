@@ -1,0 +1,42 @@
+# use regexp syntax.
+syntax: regexp
+
+# folders
+
+^project/build/target/
+^target/
+^project/boot/
+^lib_managed/
+^build/
+^reports/
+^javadoc/
+^export/
+^import/
+^tools/
+^\.idea/
+^out/
+^bin/
+^classes/
+
+# files
+
+^.+\.local
+^build\.bat
+^clean\.bat
+^gettools\.bat
+^javadoc\.bat
+^rebuild\.bat
+^unit-test\.bat
+^util\.xml
+^scalautil\.xml
+^.+\.iml
+^\.classpath
+^\.project
+
+.*\.class
+.*\.swp
+.*\.swo
+.*\.bak
+.*\.orig
+.*~
+^tags$
