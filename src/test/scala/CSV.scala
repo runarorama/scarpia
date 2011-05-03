@@ -1,38 +1,37 @@
+import scalaz._
+import Scalaz._
+import effects._
+import scarpia._
+import scarpia.errors._
+import Parsers._
 
 object CSV {
-  import scalaz._
-  import Scalaz._
-  import scarpia._
-  import scarpia.errors._
-  import Parsers._
-
   val gp = new GenParsers[Char, Unit]
   import gp._
 
-  val csvFile: Parser[Stream[List[String]]] = for {
-    result <- line.many
-    _ <- eof
-  } yield result
+  val eol = ("\n\r".attempt | "\r\n".attempt | "\n" | "\r") ? "end of line"
 
-  val line: Parser[List[String]] = for {
-    result <- cells
-    _ <- eol
-  } yield result
+  val quotedChar = noneOf("\"") | (string("\"\"") >|> '"'.pure[Parser]).attempt
 
-  val cells: Parser[List[String]] = for {
-    first <- cellContent
-    next <- remainingCells
-  } yield first :: next
-
-  val remainingCells: Parser[List[String]] =
-    (char(',') >|> cells) | List[String]().pure[({type l[x] = GenParser[Char, Unit, x]})#l]
-
-  val cellContent: Parser[String] = 
-    noneOf(",\n").many map (_.mkString)
-
-  val eol: Parser[Char] = 
-    char('\n')
+  val quotedCell = for {
+    _ <- char('"')
+    content <- quotedChar many
+    _ <- char('"') ? "quote at end of cell"
+  } yield content
 
   def parseCSV(input: Stream[Char]): Either[ParseError, Stream[List[String]]] = 
     parse(csvFile, "unknown", input)
+
+  def mainIO = for {
+    c <- getContents
+    x <- parse(csvFile, "(stdin)", c) match {
+      case Left(e) => for {
+        _ <- putStrLn("Error parsing input:")
+        _ <- putOut(e)
+      } yield ()
+      case Right(r) => r traverse_ putOut
+    }
+  } yield x
+
+  def main(args: Array[String]) = mainIO.unsafePerformIO
 }
